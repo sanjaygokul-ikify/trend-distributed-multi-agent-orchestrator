@@ -1,0 +1,16 @@
+# pyproject.toml
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "distributed-multi-agent-orchestrator"
+description = "A distributed multi-agent orchestration framework for complex, autonomous systems"
+version = "1.0.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
