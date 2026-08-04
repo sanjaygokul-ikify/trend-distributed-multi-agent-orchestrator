@@ -13,6 +13,7 @@ class Engine:
         self.actions = {}
         self.results = {}
         self.lock = threading.Lock()
+        self.timeout: float = 60.0  # default timeout in seconds
 
     def run(self) -> None:
         for agent in self.agents:
@@ -42,3 +43,19 @@ class Engine:
     def get_results(self) -> Dict[str, Result]:
         with self.lock:
             return self.results.copy()
+
+    def set_timeout(self, timeout: float) -> None:
+        self.timeout = timeout
+
+    def _run_agent_with_timeout(self, agent: Agent) -> None:
+        try:
+            with threading.Timer(self.timeout, self._timeout_handler, [agent.name]) as timer:
+                timer.start()
+                self._run_agent(agent)
+        except Exception as e:
+            logger.error(f"Failed to run agent {agent.name}", exc_info=e)
+            raise OrchestratorError(f"Failed to run agent {agent.name}")
+
+    def _timeout_handler(self, agent_name: str) -> None:
+        logger.error(f"Timeout occurred while running agent {agent_name}")
+        raise OrchestratorError(f"Timeout occurred while running agent {agent_name}")
