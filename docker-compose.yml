@@ -1,0 +1,14 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  orchestrator:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - agent
+  agent:
+    build: .
+    ports:
+      - "8081:8081"
