@@ -1,0 +1,6 @@
+# default.yaml
+
+orchestrator:
+  port: 8080
+agent:
+  port: 8081
